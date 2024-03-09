@@ -20,9 +20,9 @@
  * DEALINGS IN THE SOFTWARE.
  */
 package hscript;
+import haxe.Constraints.IMap;
 import haxe.PosInfos;
 import hscript.Expr;
-import haxe.Constraints.IMap;
 
 private enum Stop {
 	SBreak;
@@ -608,11 +608,7 @@ class Interp {
 	}
 
 	function makeIterator( v : Dynamic ) : Iterator<Dynamic> {
-		#if ((flash && !flash9) || (php && !php7 && haxe_ver < '4.0.0'))
 		if ( v.iterator != null ) v = v.iterator();
-		#else
-		try v = v.iterator() catch( e : Dynamic ) {};
-		#end
 		if( v.hasNext == null || v.next == null ) error(EInvalidIterator(v));
 		return v;
 	}
